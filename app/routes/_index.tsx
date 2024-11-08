@@ -1,5 +1,5 @@
 import type { MetaFunction } from "@remix-run/node";
-import { json, useLoaderData } from "@remix-run/react";
+import { json, Link, useLoaderData } from "@remix-run/react";
 
 export const meta: MetaFunction = () => {
   return [
@@ -25,13 +25,24 @@ export const loader = async () => {
 export default function Index() {
   const { blogs } = useLoaderData<typeof loader>();
   return (
-    <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
-      {blogs.map((blog) => (
-        <div className="p-3 shadow-md rounded-sm cursor-pointer" key={blog.id}>
-          <h2 className="font-bold uppercase pb-2">{blog.title}</h2>
-          <p>{blog.body}</p>
-        </div>
-      ))}
-    </div>
+    <>
+      <h1 className="text-center pb-4 text-2xl italic">
+        Random Blog Posts From A Dummy API!
+      </h1>
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
+        {blogs.map((blog) => (
+          <Link
+            to={`/blogs/${blog.id}`}
+            className="p-4 shadow-lg rounded-lg cursor-pointer bg-gray-100 hover:bg-gray-200 transition-all duration-200"
+            key={blog.id}
+          >
+            <h2 className="font-semibold text-gray-800 uppercase pb-3">
+              {blog.title}
+            </h2>
+            <p className="text-gray-600">{blog.body}</p>
+          </Link>
+        ))}
+      </div>
+    </>
   );
 }
