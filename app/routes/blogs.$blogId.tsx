@@ -1,5 +1,5 @@
 import { ActionFunction, LoaderFunctionArgs } from "@remix-run/node";
-import { Form, Link, useLoaderData } from "@remix-run/react";
+import { Form, Link, useLoaderData, useNavigation } from "@remix-run/react";
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const { blogId } = params;
@@ -27,6 +27,8 @@ export const action: ActionFunction = async ({ request, params }) => {
 
 const Blog = () => {
   const { title, body, id } = useLoaderData<typeof loader>();
+  const navigation = useNavigation();
+  const isSubmitting = !(navigation.state === "idle");
   return (
     <div
       key={id}
@@ -56,10 +58,11 @@ const Blog = () => {
           className="w-full p-3 mb-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-gray-500"
         />
         <button
+          disabled={isSubmitting}
           type="submit"
           className="w-full p-3 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500"
         >
-          Update
+          {isSubmitting ? "Submitting..." : "Update"}
         </button>
       </Form>
     </div>
