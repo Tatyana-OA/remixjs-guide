@@ -23,6 +23,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
+        <header className="bg-gray-500 text-white py-4">
+          <h1 className="text-2xl font-semibold text-center">
+            Navigation Showing On All Pages
+          </h1>
+        </header>
         <main className="p-5"> {children}</main>
         <ScrollRestoration />
         <Scripts />
